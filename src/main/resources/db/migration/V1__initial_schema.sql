@@ -5,8 +5,12 @@ CREATE TABLE drivers (
     id BIGSERIAL PRIMARY KEY,
     number int,
     display_name VARCHAR(255),
+    picture_key VARCHAR(255),
     country_code CHAR(3),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT ck_drivers_picture_key_not_blank
+        CHECK (picture_key IS NULL OR length(trim(picture_key)) > 0)
 );
 
 CREATE TABLE driver_identities (
