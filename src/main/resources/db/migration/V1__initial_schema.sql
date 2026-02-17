@@ -57,7 +57,7 @@ CREATE INDEX idx_seasons_active
 CREATE TABLE races (
     id BIGSERIAL PRIMARY KEY,
     season_id BIGINT NOT NULL,
-    round_number INT NOT NULL
+    round_number INT NOT NULL,
     name VARCHAR(255),
     circuit VARCHAR(255),
     race_date DATE NOT NULL,
