@@ -7,7 +7,7 @@ import jakarta.persistence.*;
         name = "race_results",
         uniqueConstraints = @UniqueConstraint(name = "uq_race_results_race_driver", columnNames = {"race_id", "driver_id"})
 )
-public class RaceResults {
+public class RaceResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,8 +41,8 @@ public class RaceResults {
     @Column(name = "fastest_lap", nullable = false)
     private boolean fastestLap;
 
-    public static RaceResults create(Race race, Driver driver) {
-        RaceResults rr = new RaceResults();
+    public static RaceResult create(Race race, Driver driver) {
+        RaceResult rr = new RaceResult();
         rr.race = race;
         rr.driver = driver;
         return rr;
