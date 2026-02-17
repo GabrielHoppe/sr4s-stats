@@ -57,13 +57,17 @@ CREATE INDEX idx_seasons_active
 CREATE TABLE races (
     id BIGSERIAL PRIMARY KEY,
     season_id BIGINT NOT NULL,
+    round_number INT NOT NULL
     name VARCHAR(255),
     circuit VARCHAR(255),
     race_date DATE NOT NULL,
 
     CONSTRAINT fk_races_season
         FOREIGN KEY (season_id) REFERENCES seasons(id)
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+    CONSTRAINT uq_races_season_round UNIQUE (season_id, round_number),
+    CONSTRAINT ck_races_round_positive CHECK (round_number > 0)
 );
 
 CREATE INDEX idx_races_season_id
