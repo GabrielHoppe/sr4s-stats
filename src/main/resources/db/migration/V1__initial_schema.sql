@@ -6,7 +6,7 @@ CREATE TABLE drivers (
     number int,
     display_name VARCHAR(255),
     picture_key VARCHAR(255),
-    country_code CHAR(3),
+    country_code VARCHAR(3),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 
     CONSTRAINT ck_drivers_picture_key_not_blank
