@@ -43,6 +43,9 @@ public class DriverIdentity {
     public Driver getDriver() {
         return driver;
     }
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
 
     public Integer getIracingId() {
         return iracingId;
@@ -50,5 +53,17 @@ public class DriverIdentity {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isPrimary() {
+        return isPrimary;
+    }
+
+    public void setPrimary(boolean primary) {
+        isPrimary = primary;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

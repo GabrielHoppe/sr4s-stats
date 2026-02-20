@@ -17,7 +17,7 @@ public class AdminDriverController {
 
     @PostMapping("/drivers/merge")
     public ResponseEntity<Void> mergeDrivers(@Valid @RequestBody MergeDriversRequest req) {
-        adminDriverService.mergeDrivers(req.winnerDriverId(), req.loserDriverId());
+        adminDriverService.mergeDriver(req.winnerDriverId(), req.loserDriverId());
         return ResponseEntity.noContent().build();
     }
 }
