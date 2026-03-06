@@ -1,11 +1,15 @@
 package solo.sr4s_stats.service;
 
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import solo.sr4s_stats.model.Driver;
 import solo.sr4s_stats.repository.DriverIdentityRepository;
 import solo.sr4s_stats.repository.DriverRepository;
 import solo.sr4s_stats.repository.RaceResultRepository;
+import org.springframework.util.StringUtils;
+
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -45,5 +49,43 @@ public class AdminDriverService {
         driverIdentityRepository.moveIdentities(loserDriverId, winnerDriverId);
         raceResultRepository.moveResults(loserDriverId, winnerDriverId);
         driverRepository.deleteById(loserDriverId);
+    }
+
+    @Transactional
+    public void updateDriver(Long driverId, String displayName, String countryCode, String pictureKey){
+        if (driverId == null){
+            throw new ResponseStatusException(BAD_REQUEST, "DRIVER ID IS REQUIRED");
+        }
+
+        Driver driver = driverRepository.findById(driverId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "DRIVER NOT FOUND WITH ID: " + driverId));
+
+        if (displayName != null){
+            String normalized = displayName.trim();
+            if (!StringUtils.hasText(normalized)) {
+                driver.setDisplayName(null);
+            } else {
+                driver.setDisplayName(normalized);
+            }
+        }
+
+        if (countryCode != null){
+            String cc = countryCode.trim();
+            if (!StringUtils.hasText(cc)) {
+                driver.setCountryCode(null);
+            } else {
+                driver.setCountryCode(cc);
+            }
+        }
+
+        if (pictureKey != null){
+            String pk = pictureKey.trim();
+            if (!StringUtils.hasText(pk)){
+                driver.setPictureKey(null);
+            } else {
+                driver.setPictureKey(pk);
+            }
+        }
+        driverRepository.save(driver);
     }
 }

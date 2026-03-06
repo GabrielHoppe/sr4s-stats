@@ -41,4 +41,28 @@ public class Driver {
     public void setNumber(Integer number) {
         this.number = number;
     }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getPictureKey() {
+        return pictureKey;
+    }
+
+    public void setPictureKey(String pictureKey) {
+        this.pictureKey = pictureKey;
+    }
 }
