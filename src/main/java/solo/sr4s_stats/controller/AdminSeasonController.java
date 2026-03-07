@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import solo.sr4s_stats.dto.CreateSeasonRequest;
+import solo.sr4s_stats.dto.UpdateSeasonRequest;
 import solo.sr4s_stats.model.Season;
 import solo.sr4s_stats.service.AdminSeasonService;
 
@@ -41,6 +42,12 @@ public class AdminSeasonController {
     @DeleteMapping("/seasons/{seasonId}")
     public ResponseEntity<Void> deleteSeason(@PathVariable Long seasonId) {
         adminSeasonService.deleteSeason(seasonId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/seasons/{seasonId}")
+    public ResponseEntity<Void> updateSeason(@PathVariable Long seasonId, @Valid @RequestBody UpdateSeasonRequest req){
+        adminSeasonService.updateSeason(seasonId, req.active(), req.name());
         return ResponseEntity.noContent().build();
     }
 }
