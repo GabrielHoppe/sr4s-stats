@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface SeasonRepository extends JpaRepository<Season, Long> {
     Optional<Season> findBySpreadsheetId(String spreadsheetId);
+
+    boolean existsByYearAndSubYearSeason(int year, int subYearSeason);
 }
