@@ -69,4 +69,17 @@ public class AdminSeasonService {
 
         return seasonRepository.save(season);
     }
+
+    @Transactional
+    public void deleteSeason(Long seasonId) {
+        if (seasonId == null) {
+            throw new ResponseStatusException(BAD_REQUEST, "SEASON ID IS REQUIRED");
+        }
+
+        if (!seasonRepository.existsById(seasonId)) {
+            throw new ResponseStatusException(BAD_REQUEST, "SEASON NOT FOUND WITH ID: " + seasonId);
+        }
+
+        seasonRepository.deleteById(seasonId);
+    }
 }
