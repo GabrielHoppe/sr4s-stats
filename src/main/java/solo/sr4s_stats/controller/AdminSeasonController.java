@@ -37,4 +37,10 @@ public class AdminSeasonController {
 
         return ResponseEntity.created(location).build();
     }
+
+    @DeleteMapping("/seasons/{seasonId}")
+    public ResponseEntity<Void> deleteSeason(@PathVariable Long seasonId) {
+        adminSeasonService.deleteSeason(seasonId);
+        return ResponseEntity.noContent().build();
+    }
 }
