@@ -90,7 +90,7 @@ public class AdminSeasonService {
     }
 
     @Transactional
-    public void updateSeason(Long seasonId, Boolean active, String name) {
+    public void updateSeason(Long seasonId, Boolean active, Integer dropRounds, String name) {
         if (seasonId == null) {
             throw new ResponseStatusException(BAD_REQUEST, "SEASON ID IS REQUIRED");
         }
@@ -100,6 +100,13 @@ public class AdminSeasonService {
 
         if (active != null) {
             season.setActive(active);
+        }
+
+        if (dropRounds != null) {
+            if (dropRounds < 0) {
+                throw new ResponseStatusException(BAD_REQUEST, "DROP ROUNDS MUST BE 0 OR GREATER");
+            }
+            season.setDropRounds(dropRounds);
         }
 
         if (name != null) {
