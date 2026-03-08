@@ -48,7 +48,7 @@ public class AdminSeasonController {
 
     @PatchMapping("/seasons/{seasonId}")
     public ResponseEntity<Void> updateSeason(@PathVariable Long seasonId, @Valid @RequestBody UpdateSeasonRequest req){
-        adminSeasonService.updateSeason(seasonId, req.active(), req.name());
+        adminSeasonService.updateSeason(seasonId, req.active(), req.dropRounds(), req.name());
         return ResponseEntity.noContent().build();
     }
 }
