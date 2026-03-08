@@ -22,6 +22,10 @@ public record CreateSeasonRequest (
         @Min(value = 1, message = "SUB YEAR SEASON NUMBER MUST BE GREATER THAN 0")
         Integer subYearSeason,
 
+        @NotNull(message = "DROP ROUNDS IS REQUIERED")
+        @Min(value = 0, message = "DROP ROUNDS MUST BE BE EQUAL TO 0 OR GREATER")
+        Integer dropRounds,
+
         @Size(max = 255, message = "NAME MUST BE LESS THAN 255 CHARACTERS")
         String name
 ) {}

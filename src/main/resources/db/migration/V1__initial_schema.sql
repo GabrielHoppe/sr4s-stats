@@ -46,9 +46,11 @@ CREATE TABLE seasons (
     active BOOLEAN NOT NULL,
     year INT NOT NULL,
     sub_year_season INT NOT NULL,
+    drop_rounds INT NOT NULL DEFAULT 0,
     name VARCHAR(255),
 
-    CONSTRAINT uq_seasons_year_subseason UNIQUE (year, sub_year_season)
+    CONSTRAINT uq_seasons_year_subseason UNIQUE (year, sub_year_season),
+    CONSTRAINT ck_seasons_drop_rounds_nonnegative check (drop_rounds >= 0)
 );
 
 CREATE INDEX idx_seasons_active

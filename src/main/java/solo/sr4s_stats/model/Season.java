@@ -21,6 +21,9 @@ public class Season {
     @Column(name = "sub_year_season", nullable = false)
     private int subYearSeason;
 
+    @Column(name = "drop_rounds", nullable = false)
+    private int dropRounds;
+
     @Column(name = "name")
     private String name;
 
@@ -54,6 +57,13 @@ public class Season {
     }
     public void setSubYearSeason(int subYearSeason) {
         this.subYearSeason = subYearSeason;
+    }
+
+    public int getDropRounds() {
+        return dropRounds;
+    }
+    public void setDropRounds(int dropRounds) {
+        this.dropRounds = dropRounds;
     }
 
     public String getName() {

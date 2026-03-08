@@ -27,6 +27,7 @@ public class AdminSeasonController {
                 req.active(),
                 req.year(),
                 req.subYearSeason(),
+                req.dropRounds(),
                 req.name()
         );
 
