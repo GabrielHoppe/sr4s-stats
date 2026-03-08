@@ -23,6 +23,7 @@ public class AdminSeasonService {
             Boolean active,
             Integer year,
             Integer subYearSeason,
+            Integer dropRounds,
             String name
     ) {
         if (spreadsheetId == null || !StringUtils.hasText(spreadsheetId.trim())) {
@@ -49,6 +50,10 @@ public class AdminSeasonService {
             throw new ResponseStatusException(BAD_REQUEST, "SUB YEAR SEASON MUST BE GREATER THAN 0");
         }
 
+        if (dropRounds < 0) {
+            throw new ResponseStatusException(BAD_REQUEST, "DROP ROUNDS MUST BE EQUAL TO 0 OR GREATER");
+        }
+
         if (seasonRepository.existsByYearAndSubYearSeason(year, subYearSeason)) {
             throw new ResponseStatusException(
                     BAD_REQUEST,
@@ -60,6 +65,7 @@ public class AdminSeasonService {
         season.setActive(active);
         season.setYear(year);
         season.setSubYearSeason(subYearSeason);
+        season.setDropRounds(dropRounds);
 
         if (name == null || !StringUtils.hasText(name.trim())) {
             season.setName(null);
