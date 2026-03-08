@@ -49,7 +49,7 @@ CREATE TABLE seasons (
     drop_rounds INT NOT NULL DEFAULT 0,
     name VARCHAR(255),
 
-    CONSTRAINT uq_seasons_year_subseason UNIQUE (year, sub_year_season)
+    CONSTRAINT uq_seasons_year_subseason UNIQUE (year, sub_year_season),
     CONSTRAINT ck_seasons_drop_rounds_nonnegative check (drop_rounds >= 0)
 );
 
