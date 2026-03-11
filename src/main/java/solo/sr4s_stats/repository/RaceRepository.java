@@ -4,7 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import solo.sr4s_stats.model.Race;
 
 import java.util.Optional;
+import java.util.List;
 
 public interface RaceRepository extends JpaRepository<Race, Long> {
     Optional<Race> findBySeasonIdAndRoundNumber(Long seasonId, Integer roundNumber);
+
+    List<Race> findAllBySeasonId(Long seasonId);
 }
