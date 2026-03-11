@@ -5,17 +5,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import solo.sr4s_stats.model.*;
 import solo.sr4s_stats.repository.*;
-import solo.sr4s_stats.service.DevSeedService;
 import solo.sr4s_stats.service.importing.model.ParsedRow;
 import solo.sr4s_stats.service.importing.model.ParsedSheet;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.ArrayList;
 
 @Service
 public class ImportRaceService {
 
-    private final SeasonRepository seasons;
     private final RaceRepository races;
     private final DriverRepository drivers;
     private final DriverIdentityRepository identities;
@@ -23,14 +22,12 @@ public class ImportRaceService {
     private final JdbcTemplate jdbc;
 
     public ImportRaceService(
-            SeasonRepository seasons,
             RaceRepository races,
             DriverRepository drivers,
             DriverIdentityRepository identities,
             RaceResultRepository results,
             JdbcTemplate jdbc
     ) {
-        this.seasons = seasons;
         this.races = races;
         this.drivers = drivers;
         this.identities = identities;
@@ -39,12 +36,7 @@ public class ImportRaceService {
     }
 
     @Transactional
-    public void importParsedSheet(ParsedSheet sheet){
-
-        //hard coded for now
-        Season season = seasons.findBySpreadsheetId(DevSeedService.DEV_SPREADSHEET_ID)
-                .orElseThrow(() -> new IllegalStateException("SEASON NOT FOUND"));
-
+    public void importParsedSheet(Season season, ParsedSheet sheet){
         Race race = races.findBySeasonIdAndRoundNumber(season.getId(), sheet.roundNumber())
                 .orElseGet(() -> races.save(Race.create(season, sheet.roundNumber(), sheet.roundTitle(), sheet.circuit(), sheet.raceDate())));
 
@@ -55,11 +47,21 @@ public class ImportRaceService {
 
         Integer fastestIdx = findFastestRowIndex(sheet.rows());
 
+        List<Long> importedDriversIds = new ArrayList<>();
+
         for (int i = 0; i < sheet.rows().size(); i++) {
             ParsedRow row = sheet.rows().get(i);
 
             Driver driver = resolveDriver(row);
+            importedDriversIds.add(driver.getId());
+
             upsertRaceResult(race, driver, row, fastestIdx != null && i == fastestIdx);
+        }
+
+        if (importedDriversIds.isEmpty()){
+            results.deleteAllByRaceId(race.getId());
+        } else {
+            results.deleteByRaceIdAndDriverIdNotIn(race.getId(), importedDriversIds);
         }
 
         recalcDriverNumbersForRace(race.getId());
@@ -122,7 +124,7 @@ public class ImportRaceService {
 
         long millis = 0;
         if (secMs.length > 1) {
-            String ms = (secMs[1] + 000).substring(0, 3);
+            String ms = (secMs[1] + "000").substring(0, 3);
             millis = Long.parseLong(ms);
         }
 
