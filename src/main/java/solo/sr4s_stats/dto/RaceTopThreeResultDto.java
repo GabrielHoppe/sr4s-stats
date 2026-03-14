@@ -5,6 +5,6 @@ public record RaceTopThreeResultDto(
         int carNumber,
         int points,
         boolean fastestLap,
-        RaceTopThreeDriverDto driver
+        DriverDto driver
 ) {
 }

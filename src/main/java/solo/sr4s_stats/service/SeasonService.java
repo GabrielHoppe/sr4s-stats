@@ -87,7 +87,7 @@ public class SeasonService {
                 row.carNumber(),
                 row.points(),
                 row.fastestLap(),
-                new RaceTopThreeDriverDto(
+                new DriverDto(
                         row.driverId(),
                         row.driverDisplayName(),
                         row.driverCountryCode(),
