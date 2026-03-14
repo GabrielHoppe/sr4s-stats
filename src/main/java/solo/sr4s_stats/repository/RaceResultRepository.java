@@ -1,6 +1,7 @@
 package solo.sr4s_stats.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import solo.sr4s_stats.dto.RaceTopThreeRowDto;
 import solo.sr4s_stats.model.RaceResult;
 
 import org.springframework.data.jpa.repository.Modifying;
@@ -44,4 +45,26 @@ public interface RaceResultRepository extends JpaRepository<RaceResult, Long> {
         where rr.race.id = :raceId
     """)
     int deleteAllByRaceId(@Param("raceId") Long raceId);
+
+    @Query("""
+    select new solo.sr4s_stats.dto.RaceTopThreeRowDto(
+        rr.race.id,
+        rr.finishPosition,
+        rr.carNumber,
+        rr.points,
+        rr.fastestLap,
+        d.id,
+        COALESCE(d.displayName, di.name),
+        d.countryCode,
+        d.pictureKey
+    )
+    from RaceResult rr
+    join rr.driver d
+    left join DriverIdentity di on di.driver = d and di.isPrimary = true
+    where rr.race.season.id = :seasonId
+      and rr.finishPosition between 1 and 3
+    order by rr.race.roundNumber asc, rr.finishPosition asc
+    """)
+    List<RaceTopThreeRowDto> findTopThreeRowsBySeasonId(@Param("seasonId") Long seasonId);
 }
+
