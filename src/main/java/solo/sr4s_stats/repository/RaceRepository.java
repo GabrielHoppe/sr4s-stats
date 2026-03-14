@@ -10,4 +10,6 @@ public interface RaceRepository extends JpaRepository<Race, Long> {
     Optional<Race> findBySeasonIdAndRoundNumber(Long seasonId, Integer roundNumber);
 
     List<Race> findAllBySeasonId(Long seasonId);
+
+    List<Race> findAllBySeasonIdOrderByRoundNumberAsc(Long seasonId);
 }

@@ -37,6 +37,10 @@ public class Race {
         return r;
     }
 
+    public Season getSeason(){
+        return season;
+    }
+
     public Long getId() {
         return id;
     }
@@ -49,10 +53,16 @@ public class Race {
         return raceDate;
     }
 
+    public String getName(){
+        return name;
+    }
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getCircuit(){
+        return circuit;
+    }
     public void setCircuit(String circuit) {
         this.circuit = circuit;
     }
