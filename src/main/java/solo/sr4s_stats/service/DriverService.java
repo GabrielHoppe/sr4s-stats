@@ -16,25 +16,8 @@ public class DriverService {
     }
 
     @Transactional(readOnly = true)
-    public List<DriverDto> getDrivers(Long seasonId){
-        List<DriverDto> rows;
-        if (seasonId == null){
-            rows = driverRepository.findAllDrivers();
-        } else {
-            rows = driverRepository.findDriversBySeason(seasonId);
-        }
-
-        return rows.stream()
-                .map(this::mapRow)
-                .toList();
-    }
-
-    private DriverDto mapRow(DriverDto row){
-        return new DriverDto(
-                row.id(),
-                row.displayName(),
-                row.countryCode(),
-                row.pictureKey()
-        );
+    public List<DriverDto> getDrivers(Long seasonId) {
+        if (seasonId == null) return driverRepository.findAllDrivers();
+        return driverRepository.findDriversBySeason(seasonId);
     }
 }
