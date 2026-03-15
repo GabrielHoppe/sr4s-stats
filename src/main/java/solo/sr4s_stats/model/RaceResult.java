@@ -91,4 +91,6 @@ public class RaceResult {
     public void setFastestLap(boolean fastestLap) {
         this.fastestLap = fastestLap;
     }
+
+    public int getGridPosition() { return gridPosition; }
 }

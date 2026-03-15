@@ -15,6 +15,7 @@ public interface SeasonRepository extends JpaRepository<Season, Long> {
 
     List<Season> findAllByActiveTrue();
 
+    long countByChampionDriverId(Long driverId);
 
     @Query("""
     select new solo.sr4s_stats.dto.SeasonListDto(

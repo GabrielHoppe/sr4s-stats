@@ -15,7 +15,8 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
             d.id,
             COALESCE(d.displayName, di.name),
             d.countryCode,
-            d.pictureKey
+            d.pictureKey,
+            null
         )
         from Driver d
         left join DriverIdentity di
@@ -29,7 +30,8 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
             d.id,
             COALESCE(d.displayName, di.name),
             d.countryCode,
-            d.pictureKey
+            d.pictureKey,
+            null
         )
         from RaceResult rr
         join rr.driver d

@@ -5,9 +5,14 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "seasons")
 public class Season {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "champion_driver_id")
+    private Driver championDriver;
 
     @Column(name = "spreadsheet_id", nullable = false)
     private String spreadsheetId;
@@ -72,4 +77,7 @@ public class Season {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Driver getChampionDriver() { return championDriver; }
+    public void setChampionDriver(Driver championDriver) { this.championDriver = championDriver; }
 }

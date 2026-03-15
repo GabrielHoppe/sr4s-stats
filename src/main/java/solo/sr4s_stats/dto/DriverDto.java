@@ -4,5 +4,6 @@ public record DriverDto(
         Long id,
         String displayName,
         String countryCode,
-        String pictureKey
-){}
+        String pictureKey,
+        String slug
+) {}
