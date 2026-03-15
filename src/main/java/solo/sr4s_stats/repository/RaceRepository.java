@@ -12,4 +12,6 @@ public interface RaceRepository extends JpaRepository<Race, Long> {
     List<Race> findAllBySeasonId(Long seasonId);
 
     List<Race> findAllBySeasonIdOrderByRoundNumberAsc(Long seasonId);
+
+    Long countBySeasonId(Long seasonId);
 }

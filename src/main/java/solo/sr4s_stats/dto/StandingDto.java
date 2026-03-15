@@ -1,9 +1,10 @@
 package solo.sr4s_stats.dto;
 
-public record DriverDto(
-        Long id,
+public record StandingDto(
+        Long driverId,
         String displayName,
         String countryCode,
         String pictureKey,
-        String slug
+        Integer number,
+        Integer points
 ) {}

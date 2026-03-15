@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import solo.sr4s_stats.dto.SeasonDetailDto;
 import solo.sr4s_stats.dto.SeasonListDto;
+import solo.sr4s_stats.dto.StandingDto;
 import solo.sr4s_stats.service.SeasonService;
+import solo.sr4s_stats.service.StandingService;
 
 import java.util.List;
 
@@ -15,9 +17,11 @@ import java.util.List;
 public class SeasonController {
 
         private final SeasonService seasonService;
+        private final StandingService standingService;
 
-        public SeasonController(SeasonService seasonService) {
+        public SeasonController(SeasonService seasonService, StandingService standingService) {
             this.seasonService = seasonService;
+            this.standingService = standingService;
         }
 
         @GetMapping
@@ -28,5 +32,10 @@ public class SeasonController {
         @GetMapping("/{seasonId}/races")
         public SeasonDetailDto getSeasonRaces(@PathVariable Long seasonId) {
             return seasonService.getSeasonDetail(seasonId);
+        }
+
+        @GetMapping("/{seasonId}/standings")
+        public List<StandingDto> getStandings(@PathVariable Long seasonId){
+            return standingService.getSeasonStandings(seasonId);
         }
 }

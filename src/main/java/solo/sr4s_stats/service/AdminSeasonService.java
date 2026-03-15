@@ -4,17 +4,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
+import solo.sr4s_stats.dto.StandingDto;
+import solo.sr4s_stats.model.Driver;
 import solo.sr4s_stats.model.Season;
+import solo.sr4s_stats.repository.DriverRepository;
 import solo.sr4s_stats.repository.SeasonRepository;
+
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Service
 public class AdminSeasonService {
     private final SeasonRepository seasonRepository;
+    private final StandingService standingService;
+    private final DriverRepository driverRepository;
 
-    public AdminSeasonService(SeasonRepository seasonRepository) {
+    public AdminSeasonService(
+            SeasonRepository seasonRepository,
+            StandingService standingService,
+            DriverRepository driverRepository
+    ) {
         this.seasonRepository = seasonRepository;
+        this.standingService = standingService;
+        this.driverRepository = driverRepository;
     }
 
     @Transactional
@@ -100,6 +113,15 @@ public class AdminSeasonService {
 
         if (active != null) {
             season.setActive(active);
+            if (!active) {
+                List<StandingDto> standings = standingService.getSeasonStandings(seasonId);
+                if (!standings.isEmpty()) {
+                    Driver champion = driverRepository.getReferenceById(standings.get(0).driverId());
+                    season.setChampionDriver(champion);
+                }
+            } else {
+                season.setChampionDriver(null);
+            }
         }
 
         if (dropRounds != null) {

@@ -66,5 +66,14 @@ public interface RaceResultRepository extends JpaRepository<RaceResult, Long> {
     order by rr.race.roundNumber asc, rr.finishPosition asc
     """)
     List<RaceTopThreeRowDto> findTopThreeRowsBySeasonId(@Param("seasonId") Long seasonId);
+
+    @Query(""" 
+    select rr
+    from RaceResult rr
+    join fetch rr.driver d
+    join fetch rr.race r
+    where r.season.id = :seasonId
+    """)
+    List<RaceResult> findResultsBySeason(@Param("seasonId")Long seasonId);
 }
 
