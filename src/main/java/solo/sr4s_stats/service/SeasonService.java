@@ -9,6 +9,7 @@ import solo.sr4s_stats.model.Season;
 import solo.sr4s_stats.repository.RaceRepository;
 import solo.sr4s_stats.repository.RaceResultRepository;
 import solo.sr4s_stats.repository.SeasonRepository;
+import solo.sr4s_stats.util.SlugUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -91,7 +92,8 @@ public class SeasonService {
                         row.driverId(),
                         row.driverDisplayName(),
                         row.driverCountryCode(),
-                        row.driverPictureKey()
+                        row.driverPictureKey(),
+                        SlugUtils.toSlug(row.driverDisplayName())
                 )
         );
     }
