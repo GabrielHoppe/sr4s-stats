@@ -7,10 +7,8 @@ import solo.sr4s_stats.dto.DriverDto;
 import solo.sr4s_stats.dto.DriverProfileDto;
 import solo.sr4s_stats.dto.PositionStatDto;
 import solo.sr4s_stats.model.Driver;
-import solo.sr4s_stats.model.DriverIdentity;
 import solo.sr4s_stats.model.RaceResult;
 import solo.sr4s_stats.model.Season;
-import solo.sr4s_stats.repository.DriverIdentityRepository;
 import solo.sr4s_stats.repository.DriverRepository;
 import solo.sr4s_stats.repository.RaceRepository;
 import solo.sr4s_stats.repository.RaceResultRepository;
@@ -25,20 +23,17 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class DriverService {
 
     private final DriverRepository driverRepository;
-    private final DriverIdentityRepository driverIdentityRepository;
     private final RaceResultRepository raceResultRepository;
     private final SeasonRepository seasonRepository;
     private final RaceRepository raceRepository;
 
     public DriverService(
             DriverRepository driverRepository,
-            DriverIdentityRepository driverIdentityRepository,
             RaceResultRepository raceResultRepository,
             SeasonRepository seasonRepository,
             RaceRepository raceRepository
     ) {
         this.driverRepository = driverRepository;
-        this.driverIdentityRepository = driverIdentityRepository;
         this.raceResultRepository = raceResultRepository;
         this.seasonRepository = seasonRepository;
         this.raceRepository = raceRepository;
@@ -58,28 +53,15 @@ public class DriverService {
 
     @Transactional(readOnly = true)
     public DriverProfileDto getProfile(String slug) {
-        List<Driver> allDrivers = driverRepository.findAll();
+        DriverDto match = driverRepository.findAllDrivers().stream()
+                .filter(d -> slug.equals(SlugUtils.toSlug(d.displayName())))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "DRIVER NOT FOUND: " + slug));
 
-        Driver driver = null;
-        String displayName = null;
+        Driver driver = driverRepository.findById(match.id())
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "DRIVER NOT FOUND: " + slug));
 
-        for (Driver d : allDrivers) {
-            String name = d.getDisplayName();
-            if (name == null) {
-                name = driverIdentityRepository.findPrimaryByDriverId(d.getId())
-                        .map(DriverIdentity::getName)
-                        .orElse(null);
-            }
-            if (slug.equals(SlugUtils.toSlug(name))) {
-                driver = d;
-                displayName = name;
-                break;
-            }
-        }
-
-        if (driver == null) {
-            throw new ResponseStatusException(NOT_FOUND, "DRIVER NOT FOUND: " + slug);
-        }
+        String displayName = match.displayName();
 
         List<RaceResult> results = raceResultRepository.findAllByDriverId(driver.getId());
 
