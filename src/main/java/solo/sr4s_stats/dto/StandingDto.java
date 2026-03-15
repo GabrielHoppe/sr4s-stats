@@ -5,5 +5,6 @@ public record StandingDto(
         String displayName,
         String countryCode,
         String pictureKey,
+        Integer number,
         Integer points
 ) {}
