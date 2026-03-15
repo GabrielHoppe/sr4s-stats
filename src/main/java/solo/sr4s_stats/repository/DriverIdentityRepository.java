@@ -40,4 +40,12 @@ public interface DriverIdentityRepository extends JpaRepository<DriverIdentity, 
     """)
     int moveIdentities(@Param("loserId") Long loserId,
                        @Param("winnerId") Long winnerId);
+
+    @Query("""
+        select di
+        from DriverIdentity di
+        where di.driver.id = :driverId
+        and di.isPrimary = true
+    """)
+    Optional<DriverIdentity> findPrimaryByDriverId(@Param("driverId")Long driverId);
 }

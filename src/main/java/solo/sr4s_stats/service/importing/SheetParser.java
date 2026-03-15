@@ -54,7 +54,6 @@ public class SheetParser {
     }
 
     private static int parseRoundNumber(String roundTitle) {
-        // "ROUND 1" -> 1
         var m = java.util.regex.Pattern.compile("(?i)ROUND\\s+(\\d+)")
                 .matcher(roundTitle == null ? "" : roundTitle.trim());
         if (!m.find()) throw new IllegalArgumentException("ROUND NUMBER NOT FOUND ON: " + roundTitle);

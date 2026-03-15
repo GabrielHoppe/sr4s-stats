@@ -69,7 +69,7 @@ public interface RaceResultRepository extends JpaRepository<RaceResult, Long> {
 
     @Query(""" 
     select rr
-    from RaceResults rr
+    from RaceResult rr
     join fetch rr.driver d
     join fetch rr.race r
     where r.season.id = :seasonId

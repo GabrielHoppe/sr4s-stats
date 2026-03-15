@@ -48,6 +48,13 @@ public class RaceResult {
         return rr;
     }
 
+    public Race getRace(){
+        return race;
+    }
+
+    public Driver getDriver(){
+        return driver;
+    }
 
     public void setCarNumber(int carNumber) {
         this.carNumber = carNumber;
@@ -61,8 +68,16 @@ public class RaceResult {
         this.gridPosition = gridPosition;
     }
 
+    public int getFinishPosition(){
+        return finishPosition;
+    }
+
     public void setFinishPosition(int finishPosition) {
         this.finishPosition = finishPosition;
+    }
+
+    public int getPoints(){
+        return points;
     }
 
     public void setPoints(int points) {
