@@ -8,7 +8,7 @@ import solo.sr4s_stats.service.DriverService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/drivers")
+@RequestMapping("/api/drivers")
 public class DriverController {
     private final DriverService driverService;
 
