@@ -13,6 +13,7 @@ import solo.sr4s_stats.repository.DriverIdentityRepository;
 import solo.sr4s_stats.repository.RaceRepository;
 import solo.sr4s_stats.repository.RaceResultRepository;
 import solo.sr4s_stats.repository.SeasonRepository;
+import solo.sr4s_stats.util.SlugUtils;
 
 import java.util.*;
 
@@ -106,6 +107,7 @@ public class StandingService {
             standings.add(new StandingDto(
                     driver.getId(),
                     displayName,
+                    SlugUtils.toSlug(displayName),
                     driver.getCountryCode(),
                     driver.getPictureKey(),
                     driver.getNumber(),
