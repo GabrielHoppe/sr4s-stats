@@ -1,6 +1,7 @@
 package solo.sr4s_stats.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import solo.sr4s_stats.dto.RaceResultDto;
 import solo.sr4s_stats.dto.RaceTopThreeRowDto;
 import solo.sr4s_stats.model.RaceResult;
 
@@ -75,5 +76,30 @@ public interface RaceResultRepository extends JpaRepository<RaceResult, Long> {
     where r.season.id = :seasonId
     """)
     List<RaceResult> findResultsBySeason(@Param("seasonId")Long seasonId);
+
+    @Query("""
+    select new solo.sr4s_stats.dto.RaceResultDto(
+        rr.finishPosition,
+        rr.gridPosition,
+        rr.carNumber,
+        rr.points,
+        rr.gapToLeader,
+        rr.dnf,
+        rr.fastestLap,
+        new solo.sr4s_stats.dto.DriverDto(
+            d.id,
+            COALESCE(d.displayName, di.name),
+            d.countryCode,
+            d.pictureKey,
+            null
+        )
+    )
+    from RaceResult rr
+    join rr.driver d
+    left join DriverIdentity di on di.driver = d and di.isPrimary = true
+    where rr.race.id = :raceId
+    order by rr.finishPosition asc
+    """)
+    List<RaceResultDto> findResultsByRaceId(@Param("raceId") Long raceId);
 }
 
