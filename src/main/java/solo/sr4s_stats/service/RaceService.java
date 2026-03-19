@@ -48,6 +48,8 @@ public class RaceService {
 
         return new RaceDetailDto(
                 race.getId(),
+                race.getSeason().getId(),
+                race.getSeason().getName(),
                 race.getRoundNumber(),
                 race.getName(),
                 race.getCircuit(),

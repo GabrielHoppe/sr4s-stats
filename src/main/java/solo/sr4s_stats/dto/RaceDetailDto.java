@@ -5,6 +5,8 @@ import java.util.List;
 
 public record RaceDetailDto(
         Long raceId,
+        Long seasonId,
+        String seasonName,
         int roundNumber,
         String name,
         String circuit,
