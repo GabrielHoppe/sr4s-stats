@@ -29,8 +29,8 @@ public class SeasonController {
             return seasonService.listSeasons();
         }
 
-        @GetMapping("/{seasonId}/races")
-        public SeasonDetailDto getSeasonRaces(@PathVariable Long seasonId) {
+        @GetMapping("/{seasonId}")
+        public SeasonDetailDto getSeasonDetail(@PathVariable Long seasonId) {
             return seasonService.getSeasonDetail(seasonId);
         }
 
