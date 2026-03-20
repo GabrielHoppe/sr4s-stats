@@ -39,6 +39,11 @@ public class SeasonService {
     }
 
     @Transactional(readOnly = true)
+    public List<SeasonListDto> getActiveSeasons() {
+        return seasonRepository.findActiveSeason();
+    }
+
+    @Transactional(readOnly = true)
     public SeasonDetailDto getSeasonDetail(Long seasonId) {
 
         Season season = seasonRepository.findById(seasonId)
