@@ -29,6 +29,23 @@ public interface SeasonRepository extends JpaRepository<Season, Long> {
     )
     from Season s
     left join Race r on r.season.id = s.id
+    where s.active = true
+    group by s.id, s.name, s.year, s.subYearSeason, s.dropRounds, s.active
+""")
+    List<SeasonListDto> findActiveSeason();
+
+    @Query("""
+    select new solo.sr4s_stats.dto.SeasonListDto(
+        s.id,
+        s.name,
+        s.year,
+        s.subYearSeason,
+        s.dropRounds,
+        s.active,
+        count(r)
+    )
+    from Season s
+    left join Race r on r.season.id = s.id
     group by s.id, s.name, s.year, s.subYearSeason, s.dropRounds, s.active
     order by s.year desc, s.subYearSeason desc
 """)
